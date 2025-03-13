@@ -1,0 +1,105 @@
+body {
+    background-color: #174EA6;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    margin-top: 200px;
+    background: #fff;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    width: 800px;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.text {
+    color: #174EA6;
+    font-size: 40px;
+    font-weight: 700;
+}
+
+.underline {
+    width: 100px;
+    height: 5px;
+    background: #174EA6;
+    border-radius: 10px;
+}
+
+.inputs {
+    margin-top: 35px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.input {
+    display: flex;
+    align-items: center;
+    width: 300px;
+    height: 40px;
+    background: #eaeaea;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    padding-left: 15px; 
+    padding-right: 10px; 
+    gap: 10px;  
+}
+
+.input input {
+    height: 50px;
+    width: 250px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 15px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px; 
+    width: 100%; 
+}
+
+.container button {
+    width: 175px;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #174EA6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.container button:hover {
+    background-color: #1257A0;
+}
+
+.register-text {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+    font-size: 16px;
+}
+
+.register-text a {
+    color: #174EA6;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.register-text a:hover {
+    text-decoration: underline;
+}
