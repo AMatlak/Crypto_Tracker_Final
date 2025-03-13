@@ -1,13 +1,21 @@
 import React from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { BsCurrencyBitcoin } from "react-icons/bs";
 import { IoHome } from "react-icons/io5";
 import { FaWallet } from "react-icons/fa";
 import { TbPresentationAnalytics } from "react-icons/tb";
 import { IoMdSettings } from "react-icons/io";
+import { IoExit } from "react-icons/io5";
 import "./Dashboard.css";
 
 const Dashboard = () => {
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.removeItem("user"); //removes user session
+        navigate("/"); //redirects to login page
+    };
+
     return (
         <div className="dashboard-container">
             <div className="sidebar">
@@ -29,6 +37,13 @@ const Dashboard = () => {
                     <Link to="/dashboard/settings" className="item">
                         <IoMdSettings className="icon" /> Settings
                     </Link>
+                </div>
+
+                {/*logout button inside a container*/}
+                <div className="logout-container">
+                    <button className="logout-button" onClick={handleLogout}>
+                        <IoExit className="icon" /> Logout
+                    </button>
                 </div>
             </div>
 

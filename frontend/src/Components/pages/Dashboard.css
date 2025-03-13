@@ -1,13 +1,13 @@
 /*main dashboard layout*/
 .dashboard-container {
-    display: flex; /*sidebar and maint content side by side*/
+    display: flex; 
     height: 100vh; 
     width: 100%;
 }
 
 /*sidebar styling */
 .sidebar {
-    width: 150px; 
+    width: 135px;
     height: 100vh;
     background-color: #174EA6;
     color: white;
@@ -28,7 +28,7 @@
 
 /*menu list meaning home/portfolio/analaytics/settings layout*/
 .menu-list {
-    margin-top: 20px;
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -48,6 +48,33 @@
 /*background changes to dark grey when the sidebar links are hovered over*/
 .item:hover {
     background-color: #333;
+}
+
+/*logout button styling*/
+.logout-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 80%;  
+    padding: 8px 15px;  
+    font-size: 16px;
+    color: white;
+    background-color: #D9534F;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 40px;
+    border-radius: 5px;
+}
+.logout-button:hover {
+    background-color: #C9302C;
+}
+
+.logout-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: auto;
 }
 
 /*main dashboard content*/
