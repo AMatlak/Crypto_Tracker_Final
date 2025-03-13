@@ -1,3 +1,115 @@
-body {
-    background: #4285F4;
+.register-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #174EA6;
 }
+
+.register-container .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%); 
+    background: #fff;
+    padding: 30px;
+    width: 800px;
+    border-radius: 8px; 
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.register-container .header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.register-container .text {
+    color: #174EA6;
+    font-size: 40px;
+    font-weight: 700;
+}
+
+.register-container .underline {
+    width: 100px;
+    height: 5px;
+    background: #174EA6;
+    border-radius: 10px;
+}
+
+.register-container .inputs {
+    margin-top: 35px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.register-container .input {
+    display: flex;
+    align-items: center;
+    width: 300px;
+    height: 40px;
+    background: #eaeaea;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    padding-left: 15px; 
+    padding-right: 10px; 
+    gap: 10px;  
+}
+
+.register-container .input input {
+    height: 50px;
+    width: 250px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 15px;
+}
+
+.register-container .button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px; 
+    width: 100%; 
+}
+
+.register-container .container button {
+    width: 175px;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #174EA6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.register-container .container button:hover {
+    background-color: #1257A0;
+}
+
+.register-container .login-back-text {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+    font-size: 16px;
+}
+
+.register-container .login-back-text a {
+    color: #174EA6;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.register-container .login-back-text a:hover {
+    text-decoration: underline;
+}
+
