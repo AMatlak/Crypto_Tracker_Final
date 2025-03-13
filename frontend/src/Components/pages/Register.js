@@ -33,7 +33,7 @@ const Register = () => {
                         </div>
         
                         <div className="inputs">
-                        {error && <p className="error">{error}</p>}
+                            {error && <p className="error">{error}</p>}
                             <form onSubmit={handleRegister}>
                                 <div className="input">
                                 <MdEmail className="email-icon" />
