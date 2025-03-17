@@ -1,29 +1,32 @@
 import React from "react";
-import { Link, Outlet, useNavigate } from "react-router-dom";
-import { BsCurrencyBitcoin } from "react-icons/bs";
-import { IoHome } from "react-icons/io5";
-import { FaWallet } from "react-icons/fa";
-import { TbPresentationAnalytics } from "react-icons/tb";
-import { IoMdSettings } from "react-icons/io";
-import { IoExit } from "react-icons/io5";
-import "./Dashboard.css";
+import { Link, Outlet, useNavigate } from "react-router-dom"; //importing routing components from react router
+import { BsCurrencyBitcoin } from "react-icons/bs"; //bitcoin icon
+import { IoHome } from "react-icons/io5"; //home icon
+import { FaWallet } from "react-icons/fa"; //wallet icon for portfolio
+import { TbPresentationAnalytics } from "react-icons/tb"; //analytics icon
+import { IoMdSettings } from "react-icons/io"; //settings icon
+import { IoExit } from "react-icons/io5"; //exit icon
+import "./Dashboard.css"; //importing css styling sheet for dashboard
 
 const Dashboard = () => {
+    //hook for naviagation 
     const navigate = useNavigate();
 
+    //function for user logout
     const handleLogout = () => {
         localStorage.removeItem("user"); //removes user session
         navigate("/"); //redirects to login page
     };
 
     return (
-        <div className="dashboard-container">
+        <div className="dashboard-container"> {/*the below code is for the ui for dashboard interface */}
             <div className="sidebar">
                 <div className="logo-icon">
                     <BsCurrencyBitcoin className="bitcoin-logo"/>
                     <p>CPT</p>
                 </div>
 
+                {/*sidebar menu with navigation links*/}
                 <div className="menu-list">
                     <Link to="/dashboard" className="item">
                         <IoHome className="icon"/> Home
@@ -54,4 +57,4 @@ const Dashboard = () => {
     );
 };
 
-export default Dashboard;
+export default Dashboard; //exporting dashboard component for use isn app.js

@@ -1,23 +1,25 @@
 import React, { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebase";
+import { signInWithEmailAndPassword } from "firebase/auth"; //firebase function for user auth
+import { auth } from "../../firebase"; //importing firebase auth instance
 import { useNavigate } from "react-router-dom";
-import "./Login.css";
+import "./Login.css"; //importing stylesheet
 import { MdEmail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
 
 const Login = () => {
+    //variables to store user input and error messages
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
-    const navigate = useNavigate();
+    const navigate = useNavigate(); //navigation between pages
 
+    //function to handle user loging
     const handleLogin = async (e) => {
         e.preventDefault();
         setError("");
 
         try {
-            await signInWithEmailAndPassword(auth, email, password);
+            await signInWithEmailAndPassword(auth, email, password); //firabase login auth
             navigate("/dashboard");  //redirects to dashboard after login
         } catch (err) {
             setError("Invalid email or password");
@@ -25,7 +27,7 @@ const Login = () => {
     };
 
     return (
-        <div className="login-container">
+        <div className="login-container"> {/*The below code is the ui for the login page*/}
             <div className="container">
                 <div className="header">
                     <div className="text">Crypto Portfolio Tracker</div>
@@ -59,6 +61,7 @@ const Login = () => {
     );
 };
 
+//exporting the login to component
 export default Login;
 
 

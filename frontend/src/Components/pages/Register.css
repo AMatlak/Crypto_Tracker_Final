@@ -1,3 +1,4 @@
+/*styles the main register container*/
 .register-container {
     height: 100vh;
     display: flex;
@@ -6,6 +7,7 @@
     background: #174EA6;
 }
 
+/*styles the register form container and centers it*/
 .register-container .container {
     display: flex;
     flex-direction: column;
@@ -22,6 +24,7 @@
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
 }
 
+/*styles the header containing the title*/
 .register-container .header {
     display: flex;
     flex-direction: column;
@@ -30,12 +33,14 @@
     width: 100%;
 }
 
+/*styles the register title*/
 .register-container .text {
     color: #174EA6;
     font-size: 40px;
     font-weight: 700;
 }
 
+/*creates underline under main register title*/
 .register-container .underline {
     width: 100px;
     height: 5px;
@@ -43,6 +48,7 @@
     border-radius: 10px;
 }
 
+/*styles the input fields contianer*/
 .register-container .inputs {
     margin-top: 35px;
     display: flex;
@@ -52,6 +58,7 @@
     width: 100%;
 }
 
+/*styles the actual input fields within the inputs container*/
 .register-container .input {
     display: flex;
     align-items: center;
@@ -65,6 +72,7 @@
     gap: 10px;  
 }
 
+/*styles the actual text input fields*/
 .register-container .input input {
     height: 50px;
     width: 250px;
@@ -74,6 +82,7 @@
     font-size: 15px;
 }
 
+/*centers the register button*/
 .register-container .button-container {
     display: flex;
     justify-content: center;
@@ -81,6 +90,7 @@
     width: 100%; 
 }
 
+/*styles the register button*/
 .register-container .container button {
     width: 175px;
     padding: 10px;
@@ -92,10 +102,12 @@
     cursor: pointer;
 }
 
+/*changes the register buttons colour when hovered over by mouse*/
 .register-container .container button:hover {
     background-color: #1257A0;
 }
 
+/*styles the already have an account section*/
 .register-container .login-back-text {
     display: flex;
     justify-content: center;
@@ -103,12 +115,14 @@
     font-size: 16px;
 }
 
+/*styles the login link*/
 .register-container .login-back-text a {
     color: #174EA6;
     font-weight: bold;
     text-decoration: none;
 }
 
+/*underlines the login link when hovered over*/
 .register-container .login-back-text a:hover {
     text-decoration: underline;
 }

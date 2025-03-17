@@ -1,3 +1,4 @@
+/*styling for main login container*/
 .login-container {
     height: 100vh;
     display: flex;
@@ -6,6 +7,7 @@
     background: #174EA6;
 }
 
+/*styles the login form container and centers it on screen*/
 .login-container .container {
     display: flex;
     flex-direction: column;
@@ -22,6 +24,7 @@
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
 }
 
+/*styles the header containing the title*/
 .login-container .header {
     display: flex;
     flex-direction: column;
@@ -30,12 +33,14 @@
     width: 100%;
 }
 
+/*styles the main text title*/
 .login-container .text {
     color: #174EA6;
     font-size: 40px;
     font-weight: 700;
 }
 
+/*creates an underline under the main title*/
 .login-container .underline {
     width: 100px;
     height: 5px;
@@ -43,6 +48,7 @@
     border-radius: 10px;
 }
 
+/*styles the input field container*/
 .login-container .inputs {
     margin-top: 35px;
     display: flex;
@@ -52,6 +58,7 @@
     width: 100%;
 }
 
+/*styles the individual input fields*/
 .login-container .input {
     display: flex;
     align-items: center;
@@ -65,6 +72,7 @@
     gap: 10px;  
 }
 
+/*styles the actually text fields of the input field*/
 .login-container .input input {
     height: 50px;
     width: 250px;
@@ -74,6 +82,7 @@
     font-size: 15px;
 }
 
+/*centers the login button*/
 .login-container .button-container {
     display: flex;
     justify-content: center;
@@ -81,6 +90,7 @@
     width: 100%; 
 }
 
+/*styles the login button*/
 .login-container .container button {
     width: 175px;
     padding: 10px;
@@ -92,10 +102,12 @@
     cursor: pointer;
 }
 
+/*changes the login buttons background color when hover over by mouse*/
 .login-container .container button:hover {
     background-color: #1257A0;
 }
 
+/*styles the dont have account register section*/
 .login-container .register-text {
     display: flex;
     justify-content: center;
@@ -103,12 +115,14 @@
     font-size: 16px;
 }
 
+/*styling for the register link*/
 .login-container .register-text a {
     color: #174EA6;
     font-weight: bold;
     text-decoration: none;
 }
 
+/*underlines register link when hovered over*/
 .login-container .register-text a:hover {
     text-decoration: underline;
 }

@@ -1,23 +1,25 @@
 import React, { useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth"; //firebase function for user auth
+import { auth } from "../../firebase"; //importing firebase auth instance
 import { useNavigate } from "react-router-dom";
 import "./Register.css";
 import { MdEmail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
 
 const Register = () => {
+    //variables to store user input
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
+    //function to handle user register
     const handleRegister = async (e) => {
         e.preventDefault();
         setError("");
 
         try {
-            await createUserWithEmailAndPassword(auth, email, password);
+            await createUserWithEmailAndPassword(auth, email, password); //firebase login auth
             navigate("/dashboard");  //redirects to dashboard after successful signup
         } catch (err) {
             setError("Error creating account. Try again.");
@@ -25,7 +27,7 @@ const Register = () => {
     };
 
     return (
-        <div className="register-container">
+        <div className="register-container"> {/*The below code is the ui for the register page*/}
                     <div className="container">
                         <div className="header">
                             <div className="text">Register</div>
@@ -59,6 +61,6 @@ const Register = () => {
     );
 };
 
-export default Register;
+export default Register; //exporting the register to component
 
 
