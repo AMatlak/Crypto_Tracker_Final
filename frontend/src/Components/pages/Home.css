@@ -1,0 +1,56 @@
+/*container for home page centering text inside and padding added around the content*/
+.home-container {
+    text-align: center;
+    padding: 20px;
+}
+
+/*stylings for search box*/
+.search-box {
+    width: 30%;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 20px;
+    border: 2px solid #174EA6;
+    border-radius: 5px;
+    outline: none;
+}
+
+/*styling for crypto table*/
+.crypto-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+/*styling for table headers(th) and table cells(td)*/
+.crypto-table th, .crypto-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+/*styling for table headers*/
+.crypto-table th {
+    background-color: #174EA6;
+    color: white;
+}
+
+/*styling for zebra like pattern, background colour of ever even table row changed*/
+/*for better user experience*/
+.crypto-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/*table row background colour changes when hovered over by mouse*/
+.crypto-table tr:hover {
+    background-color: #e3e3e3;
+}
+
+/*adjusts column width nth-child(2) is used to target the second column which is named Home*/
+.crypto-table th:nth-child(2),
+.crypto-table td:nth-child(2) {
+    width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
