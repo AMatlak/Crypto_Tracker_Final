@@ -43,7 +43,7 @@
 /*creates an underline under the main title*/
 .login-container .underline {
     width: 100px;
-    height: 5px;
+    height: 6px;
     background: #174EA6;
     border-radius: 10px;
 }
