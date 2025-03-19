@@ -1,0 +1,61 @@
+/*settings page container*/
+.settings-container {
+    max-width: 500px;
+    margin: auto;
+    padding: 20px;
+}
+
+/*styling for settings header (title)*/
+.settings-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+/*styling for settings icon*/
+.settings-icon {
+    font-size: 24px;
+}
+
+/*styling for settings section*/
+.settings-section {
+    margin-bottom: 30px;
+}
+
+/*input fields styling*/
+.input-group {
+    margin-bottom: 20px;
+}
+
+/*styling for individual inputs eg width*/
+.input-group input {
+    width: 400px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/*update btn and 2fa button layout*/
+.update-password-btn, .enable-2fa-btn {
+    padding: 10px;
+    width: 250px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    align-items: center;
+}
+
+/*styling for update button*/
+.update-password-btn {
+    background-color: #174EA6;
+    color: white;
+}
+
+/*styling for 2fa button*/
+.enable-2fa-btn {
+    background-color: #28a745;
+    color: white;
+}
