@@ -1,5 +1,5 @@
-/*styling for main login container*/
-.login-container {
+/*styling for main reset container*/
+.reset-container {
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -7,8 +7,8 @@
     background: #174EA6;
 }
 
-/*styles the login form container and centers it on screen*/
-.login-container .container {
+/*styles the reset form container and centers it on screen*/
+.reset-container .container {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -25,7 +25,7 @@
 }
 
 /*styles the header containing the title*/
-.login-container .header {
+.reset-container .header {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -34,14 +34,14 @@
 }
 
 /*styles the main text title*/
-.login-container .text {
+.reset-container .text {
     color: #174EA6;
     font-size: 40px;
     font-weight: 700;
 }
 
 /*creates an underline under the main title*/
-.login-container .underline {
+.reset-container .underline {
     width: 100px;
     height: 6px;
     background: #174EA6;
@@ -49,7 +49,7 @@
 }
 
 /*styles the input field container*/
-.login-container .inputs {
+.reset-container .inputs {
     margin-top: 35px;
     display: flex;
     flex-direction: column;
@@ -59,7 +59,7 @@
 }
 
 /*styles the individual input fields*/
-.login-container .input {
+.reset-container .input {
     display: flex;
     align-items: center;
     width: 300px;
@@ -73,7 +73,7 @@
 }
 
 /*styles the actually text fields of the input field*/
-.login-container .input input {
+.reset-container .input input {
     height: 50px;
     width: 250px;
     background: transparent;
@@ -82,16 +82,16 @@
     font-size: 15px;
 }
 
-/*centers the login button*/
-.login-container .button-container {
+/*centers the reset password button*/
+.reset-container .button-container {
     display: flex;
     justify-content: center;
     margin-top: 20px; 
     width: 100%; 
 }
 
-/*styles the login button*/
-.login-container .container button {
+/*styles the reset password button*/
+.reset-container .container button {
     width: 175px;
     padding: 10px;
     font-size: 16px;
@@ -102,47 +102,27 @@
     cursor: pointer;
 }
 
-/*changes the login buttons background color when hover over by mouse*/
-.login-container .container button:hover {
+/*changes the reset password button when hovered over by mouse*/
+.reset-container .container button:hover {
     background-color: #1257A0;
 }
 
-/*styles the dont have account register section*/
-.login-container .register-text {
+/*styles the password reset click to login*/
+.reset-container .register-text {
     display: flex;
     justify-content: center;
     margin-top: 15px;
     font-size: 16px;
 }
 
-/*styling for the register link*/
-.login-container .register-text a {
+/*styling for the login link*/
+.reset-container .register-text a {
     color: #174EA6;
     font-weight: bold;
     text-decoration: none;
 }
 
-/*underlines register link when hovered over*/
-.login-container .register-text a:hover {
-    text-decoration: underline;
-}
-
-/*styles the forgotten password section*/
-.login-container .reset-text {
-    display: flex;
-    justify-content: center;
-    margin-top: -10px;
-    font-size: 16px;
-}
-
-/*styling for the reset link*/
-.login-container .reset-text a {
-    color: #174EA6;
-    font-weight: bold;
-    text-decoration: none;
-}
-
-/*underlines reset text when hovered over by mouse*/
-.login-container .reset-text a:hover {
+/*underlines login link when hovered over*/
+.reset-container .register-text a:hover {
     text-decoration: underline;
 }

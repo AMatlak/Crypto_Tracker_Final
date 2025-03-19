@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./Components/pages/Login";
 import Register from "./Components/pages/Register";
+import Reset from "./Components/pages/Reset";
 import Dashboard from "./Components/pages/Dashboard";
 import Home from "./Components/pages/Home";
 import Portfolio from "./Components/pages/Portfolio";
@@ -14,6 +15,7 @@ const App = () => {
             <Routes>
                 <Route path="/" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/reset" element={<Reset />} />
                 
                 {/*dashboard with nested routes*/}
                 <Route path="/dashboard" element={<Dashboard />}>

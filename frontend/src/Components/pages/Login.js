@@ -54,6 +54,10 @@ const Login = () => {
                         <div className="register-text">
                         <p>Don't have an account? <a href="/register">Register!</a></p>
                         </div>
+
+                        <div className="reset-text">
+                        <p> Forgotten your password? <a href="/reset">Rest!</a></p>
+                        </div>
                     </form>
                 </div>
             </div>
