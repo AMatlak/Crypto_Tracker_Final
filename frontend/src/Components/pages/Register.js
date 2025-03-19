@@ -1,10 +1,28 @@
 import React, { useState } from "react";
-import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth"; 
+import { createUserWithEmailAndPassword } from "firebase/auth"; 
 import { auth } from "../../firebase"; 
 import "./Register.css";
 import { MdEmail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
 
+//function to send custom email verifications
+const sendVerificationEmail = async (email) => {
+    const verificationLink = `http://your-frontend-url.com/verify?email=${email}`;
+
+    try {
+        const response = await fetch("http://localhost:5000/send-verification-email", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, verificationLink }),
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to send verification email.");
+        }
+    } catch (error) {
+        console.error("Error sending verification email:", error);
+    }
+};
 
 const Register = () => {
     const [email, setEmail] = useState("");
@@ -16,31 +34,33 @@ const Register = () => {
         e.preventDefault();
         setError("");
 
-        //confirms if passwords match if not message appears below title of password does not match
+        //checks if password matches with confirm password
         if (password !== confirmPassword) {
             setError("Passwords do not match");
             return;
         }
 
         try {
-            //create user account
+            //creates user account
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
 
-            //sends email verification
-            await sendEmailVerification(user);
-            setError("A verification email has been sent.\nPlease verify your email before logging in.");
+            //send custom email notification
+            await sendVerificationEmail(email);
+            setError("A verification email has been sent.\nPlease check your inbox.");
 
+            //clears input fields
             setEmail("");
             setPassword("");
             setConfirmPassword("");
+
         } catch (err) {
             setError("Error creating account. Try again.");
         }
     };
 
     return (
-        <div className="register-container"> {/*The below code is the ui for the register page*/}
+        <div className="register-container">  {/*The below code is the ui for the register page*/}
             <div className="container">
                 <div className="header">
                     <div className="text">Register</div>
