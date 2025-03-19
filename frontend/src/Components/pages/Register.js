@@ -10,6 +10,7 @@ const Register = () => {
     //variables to store user input
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState(""); //new state for confirm password
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
@@ -17,6 +18,11 @@ const Register = () => {
     const handleRegister = async (e) => {
         e.preventDefault();
         setError("");
+
+        if(password !== confirmPassword) {
+            setError("Passwords does not match");
+            return;
+        }
 
         try {
             await createUserWithEmailAndPassword(auth, email, password); //firebase login auth
@@ -45,6 +51,11 @@ const Register = () => {
                                 <div className="input">
                                 <RiLockPasswordFill className="password-icon" />    
                                 <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                                </div>
+
+                                <div className="input">
+                                <RiLockPasswordFill className="password-icon" />
+                                <input type="password" placeholder="Confirm Password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
                                 </div>
         
                                 <div className="button-container">
