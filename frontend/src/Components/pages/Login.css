@@ -146,3 +146,41 @@
 .login-container .reset-text a:hover {
     text-decoration: underline;
 }
+
+/*styling for google passcode container*/
+.login-container .passcode-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px; /* Space between input and button */
+    width: 100%;
+    margin-top: 10px;
+}
+
+/*styling for google passcode input*/
+.login-container .passcode-container .passcode-input {
+    width: 250px;
+    height: 40px;
+    background: #eaeaea;
+    border-radius: 8px;
+    padding-left: 15px;
+    font-size: 16px;
+    text-align: center;
+    border: none;
+    outline: none;
+}
+
+/*styling for the verify passcode button */
+.login-container .passcode-container .passcode-button {
+    width: 150px;
+    margin-top: 15px;
+    font-size: 16px;
+    background-color: #174EA6;
+    color: white;
+    border-radius: 8px;
+}
+
+/*changes the verify passcode button background color when hovered over*/
+.login-container .passcode-container .passcode-button:hover {
+    background-color: #1257A0;
+}
