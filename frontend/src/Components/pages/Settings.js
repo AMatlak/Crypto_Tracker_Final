@@ -169,11 +169,15 @@ const Settings = () => {
 
             <div className="settings-section">
                 <h2>Two-Factor Authentication (2FA)</h2>
+
+                <div className="button-container">
                 {!mfaEnabled ? (
                     <button className="enable-2fa-btn" onClick={enable2FA}>Enable 2FA</button>
                 ) : (
                     <button className="disable-2fa-btn" onClick={disable2FA}>Disable 2FA</button>
                 )}
+                </div>
+
                 {qrCode && (
                     <div className="qr-container">
                         <img src={qrCode} alt="Scan this QR Code" />
@@ -181,7 +185,9 @@ const Settings = () => {
                         <div className="input-group">
                         <input type="text" placeholder="Enter Verification Code" value={verificationCode} onChange={(e) => setVerificationCode(e.target.value)} />
                         </div>
+                        <div className="button-container">
                         <button className="verify-2fa-btn" onClick={verify2FA}>Verify Code</button>
+                        </div>
                     </div>
                 )}
                 <p>{message}</p>

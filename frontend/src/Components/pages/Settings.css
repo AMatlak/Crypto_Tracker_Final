@@ -1,64 +1,125 @@
-/*settings page container*/
+/*settings container styling*/
 .settings-container {
     max-width: 500px;
     margin: auto;
     padding: 20px;
+    text-align: center;
 }
 
-/*styling for settings header (title)*/
+/*styling for settings header*/
 .settings-header {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
     border-bottom: 2px solid #ddd;
     padding-bottom: 10px;
     margin-bottom: 20px;
 }
 
-/*styling for settings icon*/
-.settings-icon {
-    font-size: 24px;
-}
-
-/*styling for settings section*/
+/*settings section wrapper*/
 .settings-section {
     margin-bottom: 30px;
 }
 
-/*input fields styling*/
+/*styling for input group wrapper*/
 .input-group {
     margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
 }
 
-/*styling for individual inputs eg width*/
+/*input stylings*/
 .input-group input {
-    width: 400px;
+    width: 300px;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    text-align: center;
 }
 
-/*update btn and 2fa button layout*/
-.update-password-btn, .enable-2fa-btn {
-    padding: 10px;
-    width: 250px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    align-items: center;
+/*button container for layout*/
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
 }
 
-/*styling for update button*/
+/*update password button styling*/
 .update-password-btn {
     background-color: #174EA6;
     color: white;
+    width: 250px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
-/*styling for 2fa button*/
+/*enable 2fa button styling*/
 .enable-2fa-btn {
     background-color: #28a745;
     color: white;
+    width: 250px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
+/*disable 2fa button styling*/
+.disable-2fa-btn {
+    background-color: #dc3545;
+    color: white;
+    width: 250px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
 
+/*verify 2fa button styling*/
+.verify-2fa-btn {
+    background-color: #ffc107;
+    color: black;
+    width: 225px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
 
+/*update password button hover background color change*/
+.update-password-btn:hover {
+    background-color: #1257A0;
+}
+
+/*enable 2fa button hover background color change*/
+.enable-2fa-btn:hover {
+    background-color: #218838;
+}
+
+/*disable 2fa button hover background color change*/
+.disable-2fa-btn:hover {
+    background-color: #c82333;
+}
+
+/*verify 2fa button hover background color change*/
+.verify-2fa-btn:hover {
+    background-color: #e0a800;
+}
+
+/*qr code container stylign*/
+.qr-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+/*message styling*/
+.message {
+    font-size: 19px;
+    color: #000000;
+    margin-top: 10px;
+}
