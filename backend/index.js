@@ -26,21 +26,24 @@ const transporter = nodemailer.createTransport({
     },
 });
 
+//sends email verification to the user
 app.post("/send-verification-email", async (req, res) => {
     const { email, verificationLink } = req.body;
 
+    //email content(how the user sees it)
     const mailOptions = {
         from: process.env.EMAIL,
         to: email,
         subject: "Verify Your Email for Crypto Tracker",
         html: `
-            <h2>Welcome to Crypto Tracker!</h2>
+            <h2>Welcome to Crypto Tracker Test!</h2>
             <p>Click the link below to verify your email. You can enable 2FA through dashboard settings:</p>
             <a href="${verificationLink}" target="_blank">${verificationLink}</a>
         `,
     };
 
     try {
+        //sends email using nodemailer
         await transporter.sendMail(mailOptions);
         res.status(200).json({ message: "Verification email sent successfully." });
     } catch (error) {
@@ -49,20 +52,25 @@ app.post("/send-verification-email", async (req, res) => {
     }
 });
 
-//generates 2FA qr code
+//generates 2FA secret and qr code
 app.post("/generate-2fa", async (req, res) => {
     const { email } = req.body;
 
     try {
+        //generates a 2FA secret and corresponding url
         const secret = speakeasy.generateSecret({ length: 20 });
         const otpauthUrl = secret.otpauth_url;
 
+        //generates a qr code from the secret url
         qrcode.toDataURL(otpauthUrl, async (err, qrCode) => {
             if (err) {
                 return res.status(500).json({ error: "Failed to generate QR code" });
             }
 
+            //stores 2fa secret and status in firestore
             await db.collection("users").doc(email).set({ mfaEnabled: true, secret: secret.base32 }, { merge: true });
+
+            //returns the secret and qr code to the frontend
             res.json({ secret: secret.base32, qrCode });
         });
     } catch (error) {
@@ -76,11 +84,14 @@ app.post("/verify-2fa", async (req, res) => {
     const { email, token } = req.body;
 
     try {
+        //retrieves user documemnt from firestore
         const userDoc = await db.collection("users").doc(email).get();
+
         if (!userDoc.exists || !userDoc.data().mfaEnabled) {
             return res.status(400).json({ success: false, message: "2FA is not enabled for this user." });
         }
 
+        //verifys token using speakeasy
         const verified = speakeasy.totp.verify({
             secret: userDoc.data().secret,
             encoding: "base32",
@@ -104,6 +115,7 @@ app.post("/disable-2fa", async (req, res) => {
     const { email } = req.body;
 
     try {
+        //updates firestore to disable 2fa and remove secret
         await db.collection("users").doc(email).update({ mfaEnabled: false, secret: admin.firestore.FieldValue.delete() });
         res.json({ success: true, message: "2FA Disabled Successfully!" });
     } catch (error) {
@@ -117,7 +129,10 @@ app.post("/check-2fa", async (req, res) => {
     const { email } = req.body;
 
     try {
+        //retrieves user data from firestore
         const userDoc = await db.collection("users").doc(email).get();
+
+        //returns 2fa status
         if (userDoc.exists && userDoc.data().mfaEnabled) {
             res.json({ mfaEnabled: true });
         } else {

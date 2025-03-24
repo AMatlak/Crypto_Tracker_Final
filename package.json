@@ -1,0 +1,16 @@
+{
+    "name": "crypto-portfolio-electron",
+    "version": "1.0.0",
+    "main": "electron.js",
+    "scripts": {
+        "start": "cd frontend && npm start",
+        "build": "cd frontend && npm run build",
+        "electron": "node_modules/.bin/electron .",
+        "electron-dev": "cross-env ELECTRON_START_URL=http://localhost:3000 node_modules/.bin/electron ."
+    },
+    "devDependencies": {
+        "cross-env": "^7.0.3",
+        "electron": "^35.0.3",
+        "electron-is-dev": "^2.0.0"
+    }
+}

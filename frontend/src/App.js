@@ -1,6 +1,6 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Login from "./Components/pages/Login";
+import React from "react"; //import react
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"; //import routing components from react
+import Login from "./Components/pages/Login"; //the below import all page components for routing
 import Register from "./Components/pages/Register";
 import Reset from "./Components/pages/Reset";
 import Dashboard from "./Components/pages/Dashboard";
@@ -9,6 +9,7 @@ import Portfolio from "./Components/pages/Portfolio";
 import Analytics from "./Components/pages/Analytics";
 import Settings from "./Components/pages/Settings";
 
+//main app with routing configuration
 const App = () => {
     return (
         <Router>

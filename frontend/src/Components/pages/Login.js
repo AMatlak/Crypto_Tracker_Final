@@ -79,16 +79,19 @@ const Login = () => {
                     {error && <p className="error">{error}</p>}
                     {!showOtpField ? (
                         <form onSubmit={handleLogin}>
+                        
                             <div className="input">
                                 <MdEmail className="email-icon" />
                                 <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
                             </div>
 
+                            
                             <div className="input">
                                 <RiLockPasswordFill className="password-icon" />    
                                 <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
                             </div>
 
+                            
                             <div className="button-container">
                                 <button type="submit">Login</button>
                             </div>

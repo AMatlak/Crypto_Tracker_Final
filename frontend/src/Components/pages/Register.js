@@ -10,12 +10,14 @@ const sendVerificationEmail = async (email) => {
     const verificationLink = `http://your-frontend-url.com/verify?email=${email}`;
 
     try {
+        //makes a post request to the backend to trigger email sending
         const response = await fetch("http://localhost:5000/send-verification-email", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, verificationLink }),
         });
 
+        //failed to send error 
         if (!response.ok) {
             throw new Error("Failed to send verification email.");
         }
@@ -24,11 +26,12 @@ const sendVerificationEmail = async (email) => {
     }
 };
 
+//react component to handle user registration
 const Register = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
-    const [error, setError] = useState("");
+    const [email, setEmail] = useState(""); //stores email
+    const [password, setPassword] = useState(""); //stores password
+    const [confirmPassword, setConfirmPassword] = useState(""); //confirm password match
+    const [error, setError] = useState(""); //error/feedback message
 
     const handleRegister = async (e) => {
         e.preventDefault();

@@ -3,18 +3,22 @@ import { MdEmail } from "react-icons/md";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import "./Reset.css"; //imports reset css stylings
 
+//react component for resetting a user's password
 const Reset = () => {
-    const [email, setEmail] = useState("");
-    const [message, setMessage] = useState("");
-    const [error, setError] = useState("");
+    const [email, setEmail] = useState(""); //stores email input
+    const [message, setMessage] = useState(""); //success message after email is sent
+    const [error, setError] = useState(""); //error message if reset fails
 
+    //function to handle password reset
     const handleResetPassword = async (e) => {
         e.preventDefault();
         setMessage("");
         setError("");
 
+        //firebase auth
         const auth = getAuth();
         try {
+            //triggers firebase password reset email
             await sendPasswordResetEmail(auth, email);
             setMessage("Password reset email sent. Please check your inbox");
         } catch (err) {

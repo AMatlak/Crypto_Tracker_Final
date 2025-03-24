@@ -1,7 +1,8 @@
 /*container for home page centering text inside and padding added around the content*/
 .home-container {
     text-align: center;
-    padding: 20px;
+    padding: 15px;
+    margin-top: -30px;
 }
 
 /*stylings for search box*/
