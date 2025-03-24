@@ -55,3 +55,26 @@
     overflow: hidden;
     text-overflow: ellipsis; 
 }
+
+/*home next and previous buttons styling and layout*/
+.home-container button {
+    padding: 10px 20px;
+    font-size: 14px;
+    background-color: #174EA6;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/*next button background change when hovered over*/
+.home-container button:hover:not(:disabled) {
+    background-color: #1257A0;
+}
+
+/*previous button disabled when on first page and background colour changed to grey to reflect this*/
+.home-container button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}

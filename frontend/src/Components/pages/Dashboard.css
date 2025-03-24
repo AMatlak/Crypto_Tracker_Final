@@ -1,14 +1,13 @@
 /*main dashboard layout*/
 .dashboard-container {
     display: flex; 
-    height: 100vh; 
+    min-height: 100vh; 
     width: 100%;
 }
 
 /*sidebar styling */
 .sidebar {
     width: 135px;
-    height: 100vh;
     background-color: #174EA6;
     color: white;
     display: flex;
