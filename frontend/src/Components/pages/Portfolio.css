@@ -1,0 +1,151 @@
+/*main portfolio container for entire page*/
+.portfolio-container {
+    padding: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/*container for portfolio inputs such as dropdown, input and buttons */
+.portfolio-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+/*styling for dropdown and number input*/
+.crypto-dropdown,
+.portfolio-inputs input {
+    padding: 10px;
+    width: 300px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/*styling for react select custom dropdown container*/
+.crypto-dropdown .react-select__control {
+    border-radius: 5px;
+    border-color: #ccc;
+    padding: 5px;
+}
+
+/*styling for how options inside react select are displayed*/
+.crypto-dropdown .react-select__option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/*buttons continer for add and remove actions*/
+.portfolio-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+/*stylings for add and remove buttons*/
+.portfolio-buttons button {
+    padding: 10px 20px;
+    background-color: #174EA6;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/*button hover effect changing background color to dark blue(custom selected blue)*/
+.portfolio-buttons button:hover {
+    background-color: #0f3c91;
+}
+
+/*container for the summary section include piechart and table*/
+.portfolio-summary {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+/*layout for the left side of the summary(piechart)*/
+.portfolio-left {
+    flex: 1;
+}
+
+/*layout for the heading above the total portfolio value*/
+.portfolio-left h2 {
+    margin-bottom: 15px;
+}
+
+/*layout for the right side of the summary(crypto holding table)*/
+.portfolio-right {
+    flex: 1;
+}
+
+/*layout for crypto holdings table*/
+.portfolio-right table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 125px;
+}
+
+/*styling for crypto holding*/
+.portfolio-right th,
+.portfolio-right td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+/*styles for crypto table header*/
+.portfolio-right th {
+    background-color: #174EA6;
+    color: white;
+}
+
+/*styling for zebra like pattern, background colour of ever even table row changed*/
+/*for better user experience*/
+.portfolio-right tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/*background color change when table rows hovered over*/
+.portfolio-right tr:hover {
+    background-color: #e3e3e3;
+}
+
+/*container for portfolio value over time line chart*/
+.portfolio-chart-section {
+    margin-top: 40px;
+    position: relative;
+}
+
+/*styling for chart title*/
+.portfolio-chart-section h3 {
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+/*layout of buttons to select time range from line chart*/
+.chart-buttons {
+    position: absolute;
+    bottom: -30px;
+    right: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+/*styling for each button time range*/
+.chart-buttons button {
+    padding: 6px 12px;
+    font-size: 14px;
+    background-color: #174EA6;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/*background color change when user hovers over chart buttons*/
+.chart-buttons button:hover {
+    background-color: #0f3c91;
+}

@@ -1,9 +1,313 @@
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
+import { getCryptoPrices } from "../../Services/cryptoService"; //importing function getCryptoPrices from cryptoServices for crypto prices
+import { auth } from "../../firebase"; //importing firebase auth
+import { doc, getDoc, setDoc, updateDoc, arrayUnion } from "firebase/firestore"; //importing firestore functions
+import { db } from "../../firebase"; //importing firestore database
+import {PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid} from "recharts"; //importing charting components for both piechart and line chart from recharts
+import Select from "react-select";
+import "./Portfolio.css"; //importing portfolio page stylings
 
+//portfolio component
 const Portfolio = () => {
+    const [cryptos, setCryptos] = useState([]); //all available cryptocurriencies
+    const [selectedCrypto, setSelectedCrypto] = useState(null); //currently selected cryptocurrency from dropdown
+    const [amount, setAmount] = useState(""); //amount of crypto entered by user
+    const [portfolio, setPortfolio] = useState({}); //users crypto holdings
+    const [totalValue, setTotalValue] = useState(0); //total value of users portfolio
+    const [chartData, setChartData] = useState([]); //data for piechart 
+    const [historicalData, setHistoricalData] = useState([]); //historical portfolio over time
+    const [timeRange, setTimeRange] = useState("1M"); //selected time range for line chart
+    const lastSavedRef = useRef(null); //reference to track when the users holdings where last saved to firestore
+    const user = auth.currentUser; //currently authenticated user
+
+    //fetches crypto prices and refreshes them every 60 seconds
+    useEffect(() => {
+        const fetchPrices = async () => {
+            const data = await getCryptoPrices();
+            setCryptos(data);
+        };
+        fetchPrices();
+        const interval = setInterval(fetchPrices, 60000); //refreshes every 60 seconds
+        return () => clearInterval(interval);
+    }, []);
+
+    //loads the users portfolio from firestore when component mounts
+    useEffect(() => {
+        if (user) {
+            const loadPortfolio = async () => {
+                const docRef = doc(db, "portfolios", user.email); //firestore doc for users portfolio
+                const docSnap = await getDoc(docRef); //fetches the document
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    setPortfolio(data.holdings || {}); //sets holdings
+                    setHistoricalData(data.history || []); //sets chart history
+                }
+            };
+            loadPortfolio();
+        }
+    }, [user]);
+
+    //calculates total portfolio value and updates the piechart and history
+    useEffect(() => {
+        let total = 0;
+        const chart = [];
+
+        //loops through all holdings and calculates current value
+        for (let id in portfolio) {
+            const crypto = cryptos.find(c => c.id === id);
+            if (crypto) {
+                const value = crypto.current_price * portfolio[id];
+                total += value;
+                chart.push({ name: crypto.symbol.toUpperCase(), value });
+            }
+        }
+
+        //updates total portfolio value
+        setTotalValue(total);
+
+        //converts chart data to percentage format for piechart
+        const chartWithPercentages = chart.map(item => ({
+            name: item.name,
+            value: parseFloat(((item.value / total) * 100).toFixed(2))
+        }));
+        setChartData(chartWithPercentages);
+
+        const now = new Date();
+        const timestamp = now.toISOString();
+
+        //saves updated total to history every 5 seconds
+        if (user && total > 0) {
+            const lastSaved = lastSavedRef.current ? new Date(lastSavedRef.current) : null;
+            const shouldSave = !lastSaved || (now - lastSaved) >= 5000;
+
+            if (shouldSave) {
+                lastSavedRef.current = now;
+                const docRef = doc(db, "portfolios", user.email);
+                updateDoc(docRef, {
+                    history: arrayUnion({ timestamp, total })
+                });
+                setHistoricalData(prev => [...prev, { timestamp, total }]);
+            }
+        }
+    }, [portfolio, cryptos]);
+
+    //refreshes histroical data from firestore every 60 seconds
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (!user) return;
+            const docRef = doc(db, "portfolios", user.email);
+            getDoc(docRef).then((docSnap) => {
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    setHistoricalData(data.history || []);
+                }
+            });
+        }, 60000); //every 60 seconds
+        return () => clearInterval(interval);
+    }, [user]);
+
+    //function for adding crypto to users portfolio
+    const handleAdd = async () => {
+        if (!selectedCrypto || !amount || isNaN(amount)) return;
+
+        //adds amount to existing or new entry of crypto
+        const updated = {
+            ...portfolio,
+            [selectedCrypto.value]: (portfolio[selectedCrypto.value] || 0) + parseFloat(amount)
+        };
+
+        //updates local states
+        setPortfolio(updated);
+
+        await setDoc(doc(db, "portfolios", user.email), {
+            holdings: updated
+        }, { merge: true });
+        setAmount("");
+    };
+    
+    //function for removing crypto from users portfolio
+    const handleRemove = async () => {
+        if (!selectedCrypto || !amount || isNaN(amount)) return;
+        if (!(selectedCrypto.value in portfolio)) return;
+    
+        const currentAmount = portfolio[selectedCrypto.value];
+        const removeAmount = parseFloat(amount);
+    
+        let updated;
+    
+        //removes entry or subtracts the amount of crypto
+        if (removeAmount >= currentAmount) {
+            updated = { ...portfolio };
+            delete updated[selectedCrypto.value];
+        } else {
+            updated = {
+                ...portfolio,
+                [selectedCrypto.value]: currentAmount - removeAmount
+            };
+        }
+    
+        //updates local state
+        setPortfolio(updated);
+    
+        const docRef = doc(db, "portfolios", user.email);
+    
+        //updates holdings using update
+        await updateDoc(docRef, {
+            holdings: updated
+        });
+    
+        //manually recalculates total portfolio value
+        let newTotal = 0;
+        for (let id in updated) {
+            const crypto = cryptos.find(c => c.id === id);
+            if (crypto) {
+                newTotal += crypto.current_price * updated[id];
+            }
+        }
+    
+        const now = new Date();
+        const timestamp = now.toISOString();
+    
+        await updateDoc(docRef, {
+            history: arrayUnion({ timestamp, total: newTotal })
+        });
+    
+        setHistoricalData(prev => [...prev, { timestamp, total: newTotal }]);
+        setAmount("");
+    };
+
+    //preset colors for piechart segments
+    const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#A28EF0", "#FF6666"];
+
+    //function for filtering historical data by selectred time range
+    const getTimeFilteredData = () => {
+        const now = new Date();
+        
+        const getPastDate = (range) => {
+            const date = new Date(now);
+            if (range === "1D") date.setDate(now.getDate() - 1); //1 day selected time range
+            if (range === "1W") date.setDate(now.getDate() - 7); //7 day selected time range
+            if (range === "1M") date.setMonth(now.getMonth() - 1); //1 month selected time range
+            if (range === "1Y") date.setFullYear(now.getFullYear() - 1); //1 year selected time range
+            return date;
+        };
+
+        const past = getPastDate(timeRange);
+
+        //filters histroical entries to only include data within the users selected range
+        return historicalData
+            .filter(entry => new Date(entry.timestamp) >= past)
+            .map(entry => ({
+                name: `${new Date(entry.timestamp).toLocaleDateString()}\n${new Date(entry.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`,
+                value: entry.total
+            }));
+    };
+
+    //function for formatting crypto options for dropdown with image and name of cryptocurrency
+    const cryptoOptions = cryptos.map(crypto => ({
+        value: crypto.id,
+        label: (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <img src={crypto.image} alt={crypto.symbol} style={{ width: 20, height: 20 }} />
+                {crypto.name} ({crypto.symbol.toUpperCase()})
+            </div>
+        )
+    }));
+
+    //portfolio page ui
     return (
-        <div>
-            <h1>Portfolio Test</h1>
+        <div className="portfolio-container">
+            <h1>Portfolio</h1>
+
+            {/*input section for adding and removing cryptocurrencies from users profile */}
+            <div className="portfolio-inputs">
+                <Select
+                    className="crypto-dropdown"
+                    options={cryptoOptions}
+                    value={selectedCrypto}
+                    onChange={setSelectedCrypto}
+                    isSearchable
+                />
+                
+                {/*crypto amount input*/}
+                <input type="number" placeholder="Enter amount" value={amount} onChange={(e) => setAmount(e.target.value)}/>
+
+                <div className="portfolio-buttons">
+                    <button onClick={handleAdd}>Add Transaction</button>
+                    <button onClick={handleRemove}>Remove Transaction</button>
+                </div>
+            </div>
+
+            {/*displays total portfolio value and piechart*/}
+            <div className="portfolio-summary">
+                <div className="portfolio-left">
+                    <h2>Total Portfolio Value: ${totalValue.toFixed(2)}</h2>
+                    <ResponsiveContainer width="100%" height={300}>
+                        <PieChart>
+                            <Pie
+                                data={chartData}
+                                dataKey="value"
+                                nameKey="name"
+                                outerRadius={100}
+                                label={({ name, value }) => `${name}: ${value}%`}
+                            >
+                                {chartData.map((entry, index) => (
+                                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                ))}
+                            </Pie>
+                            <Tooltip />
+                            <Legend />
+                        </PieChart>
+                    </ResponsiveContainer>
+                </div>
+
+                {/*displays a table of users portfolio crypto holdings */}
+                <div className="portfolio-right">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Cryptocurrency</th>
+                                <th>Amount</th>
+                                <th>Current Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {Object.keys(portfolio).map((id) => {
+                                const crypto = cryptos.find(c => c.id === id);
+                                if (!crypto) return null;
+                                const currentValue = (crypto.current_price * portfolio[id]).toFixed(2);
+                                return (
+                                    <tr key={id}>
+                                        <td>{crypto.name}</td>
+                                        <td>{portfolio[id]}</td>
+                                        <td>${currentValue}</td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            {/*historical chart of portfolio value over time*/}
+            <div className="portfolio-chart-section">
+                <h3>Portfolio Value Over Time</h3>
+                <div className="chart-buttons">
+                    <button onClick={() => setTimeRange("1D")}>1 Day</button>
+                    <button onClick={() => setTimeRange("1W")}>1 Week</button>
+                    <button onClick={() => setTimeRange("1M")}>1 Month</button>
+                    <button onClick={() => setTimeRange("1Y")}>1 Year</button>
+                </div>
+                <ResponsiveContainer height={300}>
+                    <LineChart data={getTimeFilteredData()}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="name" />
+                        <YAxis />
+                        <Tooltip formatter={(value) => `$${value}`} />
+                        <Line type="monotone" dataKey="value" stroke="#174EA6" strokeWidth={2} />
+                    </LineChart>
+                </ResponsiveContainer>
+            </div>
         </div>
     );
 };
