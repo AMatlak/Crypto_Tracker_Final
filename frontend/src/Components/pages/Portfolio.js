@@ -12,11 +12,14 @@ const Portfolio = () => {
     const [cryptos, setCryptos] = useState([]); //all available cryptocurriencies
     const [selectedCrypto, setSelectedCrypto] = useState(null); //currently selected cryptocurrency from dropdown
     const [amount, setAmount] = useState(""); //amount of crypto entered by user
+
     const [portfolio, setPortfolio] = useState({}); //users crypto holdings
     const [totalValue, setTotalValue] = useState(0); //total value of users portfolio
+
     const [chartData, setChartData] = useState([]); //data for piechart 
     const [historicalData, setHistoricalData] = useState([]); //historical portfolio over time
     const [timeRange, setTimeRange] = useState("1M"); //selected time range for line chart
+
     const lastSavedRef = useRef(null); //reference to track when the users holdings where last saved to firestore
     const user = auth.currentUser; //currently authenticated user
 
@@ -27,7 +30,7 @@ const Portfolio = () => {
             setCryptos(data);
         };
         fetchPrices();
-        const interval = setInterval(fetchPrices, 60000); //refreshes every 60 seconds
+        const interval = setInterval(fetchPrices, 180000); //refreshes every 60 seconds
         return () => clearInterval(interval);
     }, []);
 
@@ -102,7 +105,7 @@ const Portfolio = () => {
                     setHistoricalData(data.history || []);
                 }
             });
-        }, 60000); //every 60 seconds
+        }, 180000); //every 60 seconds
         return () => clearInterval(interval);
     }, [user]);
 
@@ -179,7 +182,7 @@ const Portfolio = () => {
     //preset colors for piechart segments
     const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#A28EF0", "#FF6666"];
 
-    //function for filtering historical data by selectred time range
+    //function for filtering historical data by selectred time range for line chart
     const getTimeFilteredData = () => {
         const now = new Date();
         
@@ -198,7 +201,7 @@ const Portfolio = () => {
         return historicalData
             .filter(entry => new Date(entry.timestamp) >= past)
             .map(entry => ({
-                name: `${new Date(entry.timestamp).toLocaleDateString()}\n${new Date(entry.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`,
+                time: new Date(entry.timestamp).toLocaleDateString() + "\n" + new Date(entry.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
                 value: entry.total
             }));
     };
@@ -218,16 +221,11 @@ const Portfolio = () => {
     return (
         <div className="portfolio-container">
             <h1>Portfolio</h1>
-
+            <p> To add a cryptocurrency to your portfolio, select a coin from the dropdown below, enter the amount you own, and click <b>"Add Transaction"</b>.  
+            To remove it, select the coin again, enter the amount you'd like to remove, and click <b>"Remove Transaction"</b>.</p>
             {/*input section for adding and removing cryptocurrencies from users profile */}
             <div className="portfolio-inputs">
-                <Select
-                    className="crypto-dropdown"
-                    options={cryptoOptions}
-                    value={selectedCrypto}
-                    onChange={setSelectedCrypto}
-                    isSearchable
-                />
+                <Select className="crypto-dropdown" options={cryptoOptions} value={selectedCrypto} onChange={setSelectedCrypto} isSearchable/>
                 
                 {/*crypto amount input*/}
                 <input type="number" placeholder="Enter amount" value={amount} onChange={(e) => setAmount(e.target.value)}/>
@@ -241,16 +239,15 @@ const Portfolio = () => {
             {/*displays total portfolio value and piechart*/}
             <div className="portfolio-summary">
                 <div className="portfolio-left">
-                    <h2>Total Portfolio Value: ${totalValue.toFixed(2)}</h2>
+                <h2 className="portfolio-total">
+                    {/*span used to wrap the elements for styling*/}
+                    <span className="portfolio-total-label">Portfolio Value:</span>
+                    {/*tolocalstring was used for portfolio value to format with commas and the minimum and maximum is used to keep to 2 decimal places*/}
+                    <span className="portfolio-total-amount">${totalValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                </h2>
                     <ResponsiveContainer width="100%" height={300}>
                         <PieChart>
-                            <Pie
-                                data={chartData}
-                                dataKey="value"
-                                nameKey="name"
-                                outerRadius={100}
-                                label={({ name, value }) => `${name}: ${value}%`}
-                            >
+                            <Pie data={chartData} dataKey="value" nameKey="name" outerRadius={100} label={({ name, value }) => `${name}: ${value}%`}>
                                 {chartData.map((entry, index) => (
                                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                                 ))}
@@ -280,7 +277,7 @@ const Portfolio = () => {
                                     <tr key={id}>
                                         <td>{crypto.name}</td>
                                         <td>{portfolio[id]}</td>
-                                        <td>${currentValue}</td>
+                                        <td>${Number(currentValue).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
                                     </tr>
                                 );
                             })}
@@ -301,9 +298,22 @@ const Portfolio = () => {
                 <ResponsiveContainer height={300}>
                     <LineChart data={getTimeFilteredData()}>
                         <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" />
-                        <YAxis />
-                        <Tooltip formatter={(value) => `$${value}`} />
+                        <XAxis dataKey="time" tickFormatter={(value) => {
+                                if (timeRange === "1D") {
+                                return value.split("\n")[1]; //shows only time for 1 day to reduce dates clutter
+                                } else {
+                                return value.split("\n")[0]; //shows only dates for the other times eg 1 week...
+                                }
+                            }}
+                            minTickGap={20} //adds spacing between the ticks to reduce label clutter that was happening before
+                        />
+                        <YAxis
+                                tickFormatter={(value) =>
+                                "$" + value.toLocaleString(undefined, { maximumFractionDigits: 0 })
+                            }
+                            tick={{ fill: "#174EA6", fontSize: 14, fontWeight: 600 }}
+                        />
+                        <Tooltip formatter={(value) => "$" + value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}/>
                         <Line type="monotone" dataKey="value" stroke="#174EA6" strokeWidth={2} />
                     </LineChart>
                 </ResponsiveContainer>
