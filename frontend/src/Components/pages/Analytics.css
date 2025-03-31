@@ -1,0 +1,88 @@
+/*main analytics container layout kept similair to portfolio.js for better user experience*/
+.analytics-container {
+    padding: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+/*styling for title of analytics page*/
+.analytics-container h1 {
+    font-size: 28px;
+    font-weight: bold;
+    text-decoration: underline;
+    margin-bottom: 10px;
+}
+  
+/*styling for elemet p description paragraph of analytics page*/
+.analytics-container p {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+    background-color: #e7eaee;
+    border: 2px solid #174EA6;
+    padding: 8px 8px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    max-width: 600px;
+    margin-bottom: 50px;
+}
+  
+/*styling for crypto dropdown menu*/
+.analytics-container .crypto-dropdown {
+    padding: 8px;
+    width: 370px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 25px;
+}
+
+/*container for dropdown,current price, input and button layout*/
+.analytics-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+  
+/*styling for user analytics input(price target)*/
+.analytics-inputs input {
+    padding: 8px;
+    width: 340px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 25px;
+}
+
+/*styling for current price lable before actual crypto price*/
+.current-price-label {
+    font-weight: 500;
+    color: #555;
+    font-size: 16px;
+}
+  
+/*styling for actual crypto price*/
+.price-value {
+    color: #174EA6;
+    font-weight: bold;
+    font-size: 18px;
+}
+  
+/*styling for notification button*/
+.notify-btn {
+    padding: 10px 20px;
+    background-color: #174EA6;
+    font-size: 16px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 200px;
+}
+  
+/*notification button background color hover effect*/
+.notify-btn:hover {
+    background-color: #0f3c91;
+}
+  

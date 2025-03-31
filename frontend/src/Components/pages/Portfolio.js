@@ -314,7 +314,7 @@ const Portfolio = () => {
                             tick={{ fill: "#174EA6", fontSize: 14, fontWeight: 600 }}
                         />
                         <Tooltip formatter={(value) => "$" + value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}/>
-                        <Line type="monotone" dataKey="value" stroke="#174EA6" strokeWidth={2} />
+                        <Line type="monotone" dataKey="value" stroke="#174EA6" strokeWidth={2} dot={false} />
                     </LineChart>
                 </ResponsiveContainer>
             </div>

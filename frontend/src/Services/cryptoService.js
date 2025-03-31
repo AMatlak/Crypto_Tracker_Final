@@ -28,3 +28,22 @@ export const getCryptoPrices = async () => {
         return []; //returns empty array if the request fails
     }
 };
+
+//function for fetching historical market chart data
+export const getCryptoHistory = async (coinId, days = 365) => {
+    try {
+        const response = await axios.get(`${BASE_URL}/coins/${coinId}/market_chart`, {
+            params: {
+                vs_currency: "usd",
+                days: days, 
+                interval: "daily",
+                x_cg_demo_api_key: API_KEY,
+            },
+        });
+
+        return response.data.prices; //returns array of time stamp and price
+    } catch (error) {
+        console.error(`Error getting historical data ${coinId}:`, error.response ? error.response.data : error);
+        return [];
+    }
+};
