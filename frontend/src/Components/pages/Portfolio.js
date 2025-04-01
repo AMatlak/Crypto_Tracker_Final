@@ -6,6 +6,7 @@ import { db } from "../../firebase"; //importing firestore database
 import {PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid} from "recharts"; //importing charting components for both piechart and line chart from recharts
 import Select from "react-select";
 import "./Portfolio.css"; //importing portfolio page stylings
+import { Eye, EyeOff } from 'lucide-react';
 
 //portfolio component
 const Portfolio = () => {
@@ -22,6 +23,8 @@ const Portfolio = () => {
 
     const lastSavedRef = useRef(null); //reference to track when the users holdings where last saved to firestore
     const user = auth.currentUser; //currently authenticated user
+
+    const [isHidden, setIsHidden] = useState(false); //state to toggle visibility of users portfolio on and off
 
     //fetches crypto prices and refreshes them every 60 seconds
     useEffect(() => {
@@ -243,7 +246,9 @@ const Portfolio = () => {
                     {/*span used to wrap the elements for styling*/}
                     <span className="portfolio-total-label">Portfolio Value:</span>
                     {/*tolocalstring was used for portfolio value to format with commas and the minimum and maximum is used to keep to 2 decimal places*/}
-                    <span className="portfolio-total-amount">${totalValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                    {/*is hidden is used here to toggle visibility of users portfolio on and off */}
+                    <span className="portfolio-total-amount"> {isHidden ? '*******' : `$${totalValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}</span>
+                    <span onClick={() => setIsHidden(!isHidden)} style={{ cursor: 'pointer', marginLeft: '10px' }}>{isHidden ? <EyeOff size={25} /> : <Eye size={25} />}</span>
                 </h2>
                     <ResponsiveContainer width="100%" height={300}>
                         <PieChart>
@@ -276,8 +281,8 @@ const Portfolio = () => {
                                 return (
                                     <tr key={id}>
                                         <td>{crypto.name}</td>
-                                        <td>{portfolio[id]}</td>
-                                        <td>${Number(currentValue).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                                        <td>{isHidden ? '*****' : portfolio[id]}</td>
+                                        <td>{isHidden ? '*****' : `$${Number(currentValue).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}</td>
                                     </tr>
                                 );
                             })}
@@ -296,7 +301,7 @@ const Portfolio = () => {
                     <button onClick={() => setTimeRange("1Y")}>1 Year</button>
                 </div>
                 <ResponsiveContainer height={300}>
-                    <LineChart data={getTimeFilteredData()}>
+                    <LineChart data={isHidden ? [] : getTimeFilteredData()}>
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="time" tickFormatter={(value) => {
                                 if (timeRange === "1D") {
