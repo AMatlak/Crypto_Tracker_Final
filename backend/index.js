@@ -144,6 +144,106 @@ app.post("/check-2fa", async (req, res) => {
     }
 });
 
+//accepts price alert from frontend
+app.post("/api/set-alert", async (req, res) => {
+    const { cryptoId, targetPrice, email, currentPrice } = req.body;
+
+    if (!cryptoId || !targetPrice || !email || !currentPrice) {
+        return res.status(400).json({ message: "Missing alert data." });
+    }
+    const direction = parseFloat(targetPrice) > currentPrice ? "above" : "below";
+
+    try {
+        //stores the alert in firestore
+        await db.collection("alerts").add({
+            cryptoId,
+            targetPrice: parseFloat(targetPrice),
+            email,
+            direction,
+            notified: false,
+            createdAt: new Date(),
+        });
+
+        //error checking/testing
+        console.log(`Alert stored for ${email}: ${cryptoId} ${direction} $${targetPrice}`);
+        res.status(200).json({ message: `Alert set for ${cryptoId} at $${targetPrice}` });
+    } catch (error) {
+        console.error("Failed to store alert", error);
+        res.status(500).json({ message: "Failed to set alert" });
+    }
+});
+
+//axios is used to fetch current crypto prices from coingecko api
+const axios = require("axios");
+
+//checks alerts and sends email if target is hit (only once)
+const checkPriceAlerts = async () => {
+    try {
+        //retrieves all active alerts from firestore
+        const snapshot = await db.collection("alerts").where("notified", "==", false).get();
+
+        if (snapshot.empty) {
+            console.log("No active alerts not calling api");
+            return;
+        }
+
+        const alerts = [];
+        const cryptoIds = new Set();
+
+        //formats firestore data
+        snapshot.forEach(doc => {
+            const alert = { id: doc.id, ...doc.data() };
+            alerts.push(alert);
+            cryptoIds.add(alert.cryptoId);
+        });
+
+        //fetches current prices from coingecko
+        const idsQuery = [...cryptoIds].join(',');
+        const { data } = await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=${idsQuery}&vs_currencies=usd`);
+
+        //loops through alerts to check if target is hit
+        for (const alert of alerts) {
+            const currentPrice = data[alert.cryptoId]?.usd;
+            if (currentPrice === undefined) continue;
+
+            //handles both above and below price alerts
+            if (
+                (alert.direction === "above" && currentPrice >= alert.targetPrice) ||
+                (alert.direction === "below" && currentPrice <= alert.targetPrice)
+            ) {
+                //email content when alert is triggered
+                const mailOptions = {
+                    from: process.env.EMAIL,
+                    to: alert.email,
+                    subject: `Crypto Alert: ${alert.cryptoId} hit $${currentPrice}`,
+                    html: `
+                        <h2>Price Alert Triggered</h2>
+                        <p>${alert.cryptoId} has ${
+                            alert.direction === "above" ? "risen above" : "dropped below"
+                        } your target of <strong>$${alert.targetPrice}</strong>.</p>
+                        <p>Current price: <strong>$${currentPrice}</strong></p>
+                    `,
+                };
+
+                try {
+                    //sends email to user and updates firestore alert as triggered
+                    //also console log is for testing to make sure its working
+                    await transporter.sendMail(mailOptions);
+                    await db.collection("alerts").doc(alert.id).update({ notified: true });
+                    console.log(`Alert email sent to ${alert.email} for ${alert.cryptoId}`);
+                } catch (err) {
+                    console.error(`Failed to send alert email to ${alert.email}`, err);
+                }
+            }
+        }
+    } catch (error) {
+        console.error("error checking alerts", error);
+    }
+};
+
+//checks alerts every 2 minutes
+setInterval(checkPriceAlerts, 2 * 60 * 1000);
+
 //start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

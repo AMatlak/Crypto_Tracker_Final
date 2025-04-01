@@ -6,8 +6,8 @@ const isDev = require("electron-is-dev");
 //function to create the main application window
 function createWindow() {
     const win = new BrowserWindow({
-        width: 1300,
-        height: 900,
+        width: 1400,
+        height: 1100,
         resizable: true, //allows resizing of window
         fullscreenable: false,
         title: "Crypto Portfolio Tracker",
