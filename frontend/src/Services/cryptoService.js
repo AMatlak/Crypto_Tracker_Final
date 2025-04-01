@@ -13,7 +13,7 @@ export const getCryptoPrices = async () => {
             params: {
                 vs_currency: "usd", //price in usd
                 order: "market_cap_desc", //sort by market cap
-                per_page: 50, //limit to 50 coins
+                per_page: 200, //changed limit to 200 from 50 for further testing
                 page: 1, //first page of results
                 sparkline: false, //exludes sparkline mini chart data
                 price_change_percentage: "1h,24h,7d", //include 1h, 24h and 7 day price change 

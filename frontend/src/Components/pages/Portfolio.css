@@ -186,3 +186,20 @@
   .portfolio-container h1 {
     text-decoration: underline;
   }
+
+  /*styling for percentage change*/
+  .percentage-change {
+    margin-top: 4px;
+    font-size: 30px;
+    font-weight: 600;
+  }
+  
+  /*styling color when percentage change positive*/
+  .percentage-positive {
+    color: green;
+  }
+
+  /*styling color when percentage change negative*/
+  .percentage-negative {
+    color: red;
+  }

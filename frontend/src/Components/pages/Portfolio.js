@@ -6,7 +6,7 @@ import { db } from "../../firebase"; //importing firestore database
 import {PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid} from "recharts"; //importing charting components for both piechart and line chart from recharts
 import Select from "react-select";
 import "./Portfolio.css"; //importing portfolio page stylings
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff } from 'lucide-react';  //importing eye icons for hidding portfolio value from lucide-react
 
 //portfolio component
 const Portfolio = () => {
@@ -25,6 +25,11 @@ const Portfolio = () => {
     const user = auth.currentUser; //currently authenticated user
 
     const [isHidden, setIsHidden] = useState(false); //state to toggle visibility of users portfolio on and off
+
+    const [percentageChange, setPercentageChange] = useState(null); //percentage change over selected time period
+
+    const [filteredData, setFilteredData] = useState([]); //filtered portfolio history used for chart and percentage change
+    
 
     //fetches crypto prices and refreshes them every 60 seconds
     useEffect(() => {
@@ -112,6 +117,37 @@ const Portfolio = () => {
         return () => clearInterval(interval);
     }, [user]);
 
+    //calculates percentage change when user has selected different time range
+    useEffect(() => {
+        const now = new Date();
+    
+        //gets the dates from which to filter historical data entries based on the users selected time range
+        const getPastDate = (range) => {
+            const date = new Date(now);
+            if (range === "1D") date.setDate(now.getDate() - 1);
+            if (range === "1W") date.setDate(now.getDate() - 7);
+            if (range === "1M") date.setMonth(now.getMonth() - 1);
+            if (range === "1Y") date.setFullYear(now.getFullYear() - 1);
+            return date;
+        };
+    
+        const past = getPastDate(timeRange);
+    
+        //filters historical data within the users selected time range and also fromats it for the charts display
+        const filtered = historicalData
+            .filter(entry => new Date(entry.timestamp) >= past)
+            .map(entry => ({
+                time: new Date(entry.timestamp).toLocaleDateString() + "\n" +
+                      new Date(entry.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                value: entry.total
+            }));
+    
+        //updates percentage changes and data for the line chart
+        const change = calculatePercentageChange(filtered);
+        setPercentageChange(change);
+        setFilteredData(filtered); 
+    }, [timeRange, historicalData]);
+
     //function for adding crypto to users portfolio
     const handleAdd = async () => {
         if (!selectedCrypto || !amount || isNaN(amount)) return;
@@ -185,28 +221,13 @@ const Portfolio = () => {
     //preset colors for piechart segments
     const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#A28EF0", "#FF6666"];
 
-    //function for filtering historical data by selectred time range for line chart
-    const getTimeFilteredData = () => {
-        const now = new Date();
-        
-        const getPastDate = (range) => {
-            const date = new Date(now);
-            if (range === "1D") date.setDate(now.getDate() - 1); //1 day selected time range
-            if (range === "1W") date.setDate(now.getDate() - 7); //7 day selected time range
-            if (range === "1M") date.setMonth(now.getMonth() - 1); //1 month selected time range
-            if (range === "1Y") date.setFullYear(now.getFullYear() - 1); //1 year selected time range
-            return date;
-        };
-
-        const past = getPastDate(timeRange);
-
-        //filters histroical entries to only include data within the users selected range
-        return historicalData
-            .filter(entry => new Date(entry.timestamp) >= past)
-            .map(entry => ({
-                time: new Date(entry.timestamp).toLocaleDateString() + "\n" + new Date(entry.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                value: entry.total
-            }));
+    //function for calucalting percentage change
+    const calculatePercentageChange = (data) => { 
+        if (data.length < 2) return null; //checks if theirs enough data to calculate percentage change
+        const first = data[0].value;
+        const last = data[data.length - 1].value;
+        const change = ((last - first) / first) * 100; //formula for calculating selected time rang
+        return change.toFixed(2); //returns the change and is also rounded to 2 decimal places
     };
 
     //function for formatting crypto options for dropdown with image and name of cryptocurrency
@@ -249,6 +270,13 @@ const Portfolio = () => {
                     {/*is hidden is used here to toggle visibility of users portfolio on and off */}
                     <span className="portfolio-total-amount"> {isHidden ? '*******' : `$${totalValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}</span>
                     <span onClick={() => setIsHidden(!isHidden)} style={{ cursor: 'pointer', marginLeft: '10px' }}>{isHidden ? <EyeOff size={25} /> : <Eye size={25} />}</span>
+                    {/*displays percentage change of users portfolio value when isHidden is false*/}
+                    {!isHidden && percentageChange !== null && (
+                        <div className={`percentage-change ${percentageChange >= 0 ? "percentage-positive" : "percentage-negative"}`}>
+                            {percentageChange >= 0 ? "+" : ""}
+                            {percentageChange}%
+                        </div>
+                    )}
                 </h2>
                     <ResponsiveContainer width="100%" height={300}>
                         <PieChart>
@@ -301,7 +329,7 @@ const Portfolio = () => {
                     <button onClick={() => setTimeRange("1Y")}>1 Year</button>
                 </div>
                 <ResponsiveContainer height={300}>
-                    <LineChart data={isHidden ? [] : getTimeFilteredData()}>
+                    <LineChart data={isHidden ? [] : (filteredData || [])}>
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="time" tickFormatter={(value) => {
                                 if (timeRange === "1D") {
