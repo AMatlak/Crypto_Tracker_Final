@@ -308,7 +308,10 @@ const Portfolio = () => {
                                 const currentValue = (crypto.current_price * portfolio[id]).toFixed(2);
                                 return (
                                     <tr key={id}>
-                                        <td>{crypto.name}</td>
+                                        <td>
+                                        <img src={crypto.image} alt={crypto.name} width="20" style={{ marginRight: "10px", verticalAlign: "middle" }} />
+                                        {crypto.name}
+                                        </td>
                                         <td>{isHidden ? '*****' : portfolio[id]}</td>
                                         <td>{isHidden ? '*****' : `$${Number(currentValue).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}</td>
                                     </tr>
