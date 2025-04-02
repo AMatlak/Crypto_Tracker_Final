@@ -45,10 +45,10 @@ app.post("/send-verification-email", async (req, res) => {
     try {
         //sends email using nodemailer
         await transporter.sendMail(mailOptions);
-        res.status(200).json({ message: "Verification email sent successfully." });
+        res.status(200).json({ message: "Verification email sent successfully" });
     } catch (error) {
         console.error("Error sending email:", error);
-        res.status(500).json({ error: "Failed to send verification email." });
+        res.status(500).json({ error: "Failed to send the verification email" });
     }
 });
 
@@ -74,8 +74,8 @@ app.post("/generate-2fa", async (req, res) => {
             res.json({ secret: secret.base32, qrCode });
         });
     } catch (error) {
-        console.error("Error generating 2FA secret:", error);
-        res.status(500).json({ error: "Failed to generate 2FA key." });
+        console.error("Error generating 2FA secret", error);
+        res.status(500).json({ error: "Failed to generate 2FA key" });
     }
 });
 
@@ -88,7 +88,7 @@ app.post("/verify-2fa", async (req, res) => {
         const userDoc = await db.collection("users").doc(email).get();
 
         if (!userDoc.exists || !userDoc.data().mfaEnabled) {
-            return res.status(400).json({ success: false, message: "2FA is not enabled for this user." });
+            return res.status(400).json({ success: false, message: "2FA is not enabled for this user" });
         }
 
         //verifys token using speakeasy
@@ -100,13 +100,13 @@ app.post("/verify-2fa", async (req, res) => {
         });
 
         if (verified) {
-            res.json({ success: true, message: "2FA Verified Successfully!" });
+            res.json({ success: true, message: "2FA Verified Successfully" });
         } else {
-            res.json({ success: false, message: "Invalid Code. Please try again." });
+            res.json({ success: false, message: "Invalid Code. Please try again" });
         }
     } catch (error) {
-        console.error("Error verifying 2FA:", error);
-        res.status(500).json({ error: "Failed to verify 2FA code." });
+        console.error("Error verifying 2FA", error);
+        res.status(500).json({ error: "Failed to verify 2FA  one time code" });
     }
 });
 
@@ -119,7 +119,7 @@ app.post("/disable-2fa", async (req, res) => {
         await db.collection("users").doc(email).update({ mfaEnabled: false, secret: admin.firestore.FieldValue.delete() });
         res.json({ success: true, message: "2FA Disabled Successfully!" });
     } catch (error) {
-        console.error("Error disabling 2FA:", error);
+        console.error("Error disabling 2FA", error);
         res.status(500).json({ error: "Failed to disable 2FA." });
     }
 });
@@ -139,7 +139,7 @@ app.post("/check-2fa", async (req, res) => {
             res.json({ mfaEnabled: false });
         }
     } catch (error) {
-        console.error("Error checking 2FA status:", error);
+        console.error("Error checking 2FA status", error);
         res.status(500).json({ error: "Failed to check 2FA status." });
     }
 });
@@ -159,6 +159,7 @@ app.post("/api/set-alert", async (req, res) => {
             cryptoId,
             targetPrice: parseFloat(targetPrice),
             email,
+            currentPrice: parseFloat(currentPrice),
             direction,
             notified: false,
             createdAt: new Date(),
@@ -170,6 +171,64 @@ app.post("/api/set-alert", async (req, res) => {
     } catch (error) {
         console.error("Failed to store alert", error);
         res.status(500).json({ message: "Failed to set alert" });
+    }
+});
+
+//route to fetch all active alerts for displaying on table in analytics page
+app.post("/api/get-alerts", async (req, res) => {
+    const { email } = req.body;
+
+    //validates email
+    if (!email) {
+        return res.status(400).json({ message: "Email is missing" });
+    }
+
+    try {
+        //query sent to firestore for alerts matching the users email that have not yet been triggered
+        const snapshot = await db.collection("alerts")
+            .where("email", "==", email)
+            .where("notified", "==", false)
+            .get();
+
+        const alerts = [];
+
+        //formats the alerts documents into a clean array of alert objects
+        snapshot.forEach(doc => {
+            alerts.push({
+                id: doc.id,
+                cryptoId: doc.data().cryptoId,
+                currentPrice: doc.data().currentPrice || 0,
+                targetPrice: doc.data().targetPrice,
+                direction: doc.data().direction
+            });
+        });
+
+        //returns the list of alerts as a json
+        res.status(200).json(alerts);
+    } catch (err) {
+        console.error("Error fetching the alerts", err);
+        res.status(500).json({ message: "Failed to fetch the alerts" });
+    }
+});
+
+//route to delete an alert by its firestore id linked to the remove button on analytics page
+app.delete("/api/delete-alert", async (req, res) => {
+    const { id } = req.body;
+
+    //validates id
+    if (!id) {
+        return res.status(400).json({ message: "Missing the alert ID" });
+    }
+
+    try {
+        //deletes the alert document from firestore
+        await db.collection("alerts").doc(id).delete();
+
+        //responds with a success message
+        res.status(200).json({ message: "Alert deleted successfully" });
+    } catch (error) {
+        console.error("Failed to delete alert", error);
+        res.status(500).json({ message: "Failed to delete alert" });
     }
 });
 

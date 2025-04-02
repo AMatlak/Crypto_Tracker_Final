@@ -85,4 +85,57 @@
 .notify-btn:hover {
     background-color: #0f3c91;
 }
-  
+
+/*container for the alerts table*/
+.alerts-table {
+    margin-top: 20px;
+}
+
+/*styling for the alerts table*/
+.alerts-table table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+/*styling for the crypto price alert table headers*/
+.alerts-table th {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    background-color: #174EA6;
+    color: white;
+}
+
+/*styling forr the crypto price alert table cells*/
+.alerts-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+/*adds zebra stripes for better ui experience when multiple alerts set up*/
+.alerts-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/*background color change when row however over*/
+.alerts-table tr:hover {
+    background-color: #e3e3e3;
+}
+
+/*styles for the remove button*/
+.remove-alert-btn {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+/*darker red on hovering on remove alert button*/
+.remove-alert-btn:hover {
+    background-color: #cc0000;
+}
