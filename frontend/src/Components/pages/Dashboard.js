@@ -1,4 +1,6 @@
 import React from "react";
+import { useEffect } from "react";
+import { auth } from "../../firebase";
 import { Link, Outlet, useNavigate } from "react-router-dom"; //importing routing components from react router
 import { BsCurrencyBitcoin } from "react-icons/bs"; //bitcoin icon
 import { IoHome } from "react-icons/io5"; //home icon
@@ -11,6 +13,17 @@ import "./Dashboard.css"; //importing css styling sheet for dashboard
 const Dashboard = () => {
     //hook for naviagation 
     const navigate = useNavigate();
+
+    //checks if user is authenticated when dashboard loads
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged(user => {
+          if (!user) {
+            navigate("/"); //redirects to login if not logged in
+          }
+        });
+      
+        return () => unsubscribe();
+      }, []);
 
     //function for user logout
     const handleLogout = () => {
