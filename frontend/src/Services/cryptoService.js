@@ -21,10 +21,10 @@ export const getCryptoPrices = async () => {
             },
         });
 
-        console.log("API Response:", response.data); //used for debugging
+        console.log("API response", response.data); //used for debugging
         return response.data; //return crypto data
     } catch (error) {
-        console.error("Error fetching crypto data:", error.response ? error.response.data : error);
+        console.error("Error fetching crypto data", error.response ? error.response.data : error);
         return []; //returns empty array if the request fails
     }
 };

@@ -14,7 +14,7 @@ const Dashboard = () => {
     //hook for naviagation 
     const navigate = useNavigate();
 
-    //checks if user is authenticated when dashboard loads
+    //checks if user is authenticated when dashboard loads and redirects to login page if not(protected routes)
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
           if (!user) {

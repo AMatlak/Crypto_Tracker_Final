@@ -17,7 +17,6 @@ const Home = () => {
     function getCoinsPerPage(width) {
         if (width >= 1500) return 30;
         if (width >= 1300) return 15;
-        if (width >= 768) return 15;
         return 15;
     }
 
@@ -41,7 +40,7 @@ const Home = () => {
         fetchPrices(); //initial call when component mounts
 
         //refresh prices every 60 seconds (leave high while developing)
-        const interval = setInterval(fetchPrices, 1000000000);
+        const interval = setInterval(fetchPrices, 60000);
         return () => clearInterval(interval); //clean up function to clear interval
     }, []);
 
@@ -62,16 +61,7 @@ const Home = () => {
             <h2>Live Crypto Prices</h2>
 
             {/*search box*/}
-            <input
-                type="text"
-                className="search-box"
-                placeholder="Search Cryptocurrency..."
-                value={searchQuery}
-                onChange={(e) => {
-                    setSearchQuery(e.target.value);
-                    setCurrentPage(1); //rest to page 1 after search
-                }}
-            />
+            <input type="text" className="search-box" placeholder="Search Cryptocurrency..." value={searchQuery} onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }} />
 
             {/*crypto price table*/}
             <table className="crypto-table">
@@ -120,22 +110,8 @@ const Home = () => {
 
             {/*pagination buttons*/}
             <div style={{ marginTop: "20px", display: "flex", justifyContent: "center", gap: "10px" }}>
-                <button
-                    onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                    disabled={currentPage === 1}
-                >
-                    Previous
-                </button>
-                <button
-                    onClick={() =>
-                        setCurrentPage((prev) =>
-                            indexOfLastCoin < filteredCryptos.length ? prev + 1 : prev
-                        )
-                    }
-                    disabled={indexOfLastCoin >= filteredCryptos.length}
-                >
-                    Next
-                </button>
+                <button onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} disabled={currentPage === 1}>Previous</button>
+                <button onClick={() => setCurrentPage((prev) => indexOfLastCoin < filteredCryptos.length ? prev + 1 : prev)} disabled={indexOfLastCoin >= filteredCryptos.length}>Next</button>
             </div>
         </div>
     );
