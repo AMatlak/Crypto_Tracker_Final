@@ -4,7 +4,7 @@ import { auth } from "../../firebase"; //importing firebase auth
 import { doc, getDoc, setDoc, updateDoc, arrayUnion } from "firebase/firestore"; //importing firestore functions
 import { db } from "../../firebase"; //importing firestore database
 import {PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid} from "recharts"; //importing charting components for both piechart and line chart from recharts
-import Select from "react-select";
+import Select from "react-select"; //imports select component from react-select library for rendering custom dropdown menu
 import "./Portfolio.css"; //importing portfolio page stylings
 import { Eye, EyeOff } from 'lucide-react';  //importing eye icons for hidding portfolio value from lucide-react
 
@@ -38,7 +38,7 @@ const Portfolio = () => {
             setCryptos(data);
         };
         fetchPrices();
-        const interval = setInterval(fetchPrices, 180000); //refreshes every 60 seconds
+        const interval = setInterval(fetchPrices, 30000); //refreshes every 60 seconds
         return () => clearInterval(interval);
     }, []);
 
@@ -113,11 +113,11 @@ const Portfolio = () => {
                     setHistoricalData(data.history || []);
                 }
             });
-        }, 180000); //every 60 seconds
+        }, 30000); //every 30 seconds
         return () => clearInterval(interval);
     }, [user]);
 
-    //calculates percentage change when user has selected different time range
+    //calculates percentage change when user has selected different time range and filters historical data
     useEffect(() => {
         const now = new Date();
     

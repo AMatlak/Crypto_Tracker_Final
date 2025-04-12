@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth"; 
-import { auth } from "../../firebase"; 
+import { createUserWithEmailAndPassword } from "firebase/auth"; //imports firebase method for creating a new user account with email and password
+import { auth } from "../../firebase"; //imports auth from firebase
 import "./Register.css";
 import { MdEmail } from "react-icons/md";
-import { RiLockPasswordFill } from "react-icons/ri";
+import { RiLockPasswordFill } from "react-icons/ri"; //imports lock password icon from react-icons
 
 //function to send custom email verifications
 const sendVerificationEmail = async (email) => {

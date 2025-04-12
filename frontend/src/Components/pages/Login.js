@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth"; //firebase function for user auth
 import { auth } from "../../firebase"; //importing firebase auth instance
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; //import the useNavigate hook to navigate between routes
 import "./Login.css"; //importing stylesheet
 import { MdEmail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";

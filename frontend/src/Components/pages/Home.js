@@ -39,8 +39,8 @@ const Home = () => {
 
         fetchPrices(); //initial call when component mounts
 
-        //refresh prices every 60 seconds (leave high while developing)
-        const interval = setInterval(fetchPrices, 60000);
+        //refresh prices every 30 seconds (leave high while developing)
+        const interval = setInterval(fetchPrices, 30000);
         return () => clearInterval(interval); //clean up function to clear interval
     }, []);
 

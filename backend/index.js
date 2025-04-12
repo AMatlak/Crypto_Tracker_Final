@@ -64,7 +64,7 @@ app.post("/generate-2fa", async (req, res) => {
         //generates a qr code from the secret url
         qrcode.toDataURL(otpauthUrl, async (err, qrCode) => {
             if (err) {
-                return res.status(500).json({ error: "Failed to generate QR code" });
+                return res.status(500).json({ error: "Failed to generate qrcode" });
             }
 
             //stores 2fa secret and status in firestore
@@ -75,7 +75,7 @@ app.post("/generate-2fa", async (req, res) => {
         });
     } catch (error) {
         console.error("Error generating 2FA secret", error);
-        res.status(500).json({ error: "Failed to generate 2FA key" });
+        res.status(500).json({ error: "Failed to generate 2FA" });
     }
 });
 

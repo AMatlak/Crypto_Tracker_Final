@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { auth } from "../../firebase";
 import Select from "react-select";
-import { getCryptoPrices, getCryptoHistory } from "../../Services/cryptoService";
+import { getCryptoPrices, getCryptoHistory } from "../../Services/cryptoService"; //importing functions from cryptoServices getCryptoPrices and getCryptoHistory
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import "./Analytics.css";
 

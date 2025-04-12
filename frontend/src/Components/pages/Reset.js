@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { MdEmail } from "react-icons/md";
-import { getAuth, sendPasswordResetEmail } from "firebase/auth";
+import React, { useState } from "react"; //imports react and useState hook
+import { MdEmail } from "react-icons/md"; //imports mail icon
+import { getAuth, sendPasswordResetEmail } from "firebase/auth"; //imports firebase auth method for getting the auth and sending a password reset email
 import "./Reset.css"; //imports reset css stylings
 
 //react component for resetting a user's password

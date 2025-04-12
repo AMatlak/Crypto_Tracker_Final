@@ -9,8 +9,9 @@
         "electron-dev": "cross-env ELECTRON_START_URL=http://localhost:3000 node_modules/.bin/electron ."
     },
     "devDependencies": {
+        "builder": "^5.0.0",
         "cross-env": "^7.0.3",
-        "electron": "^35.0.3",
+        "electron": "^35.1.4",
         "electron-is-dev": "^2.0.0"
     }
 }

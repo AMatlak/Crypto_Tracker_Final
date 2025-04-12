@@ -24,7 +24,9 @@ function createWindow() {
         ? "http://localhost:3000"
         : `file://${path.join(__dirname, "frontend/build/index.html")}`;
 
-    win.loadURL(startUrl);
+    win.loadURL(startUrl).then(() => {
+        win.setTitle("Crypto Portfolio Tracker");
+    });
 }
 
 //when electron is ready create the window
