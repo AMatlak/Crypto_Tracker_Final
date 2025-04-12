@@ -4,7 +4,7 @@
     "main": "electron.js",
     "scripts": {
         "start": "concurrently \"npm run backend\" \"npm run frontend\" \"npm run electron-dev\"",
-        "backend": "node backend/index.js",
+        "backend": "cd backend && node index.js",
         "frontend": "cd frontend && npm start",
         "build": "cd frontend && npm run build",
         "electron": "node_modules/.bin/electron .",
@@ -12,6 +12,7 @@
     },
     "devDependencies": {
         "builder": "^5.0.0",
+        "concurrently": "^9.1.2",
         "cross-env": "^7.0.3",
         "electron": "^35.1.4",
         "electron-is-dev": "^2.0.0"

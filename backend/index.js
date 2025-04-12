@@ -6,6 +6,10 @@ const qrcode = require("qrcode");
 const admin = require("firebase-admin");
 require("dotenv").config();
 
+//added for debugging
+console.log("Email:", process.env.EMAIL);
+console.log("Password:", process.env.PASSWORD ? "Loaded" : "Missing");
+
 const app = express();
 app.use(express.json());
 app.use(cors());

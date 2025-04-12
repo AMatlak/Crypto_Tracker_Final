@@ -2,7 +2,7 @@
 import axios from "axios";
 
 //coingecko api details
-const API_KEY = process.env.REACT_APP_CRYPTO_API_KEY;
+const API_KEY = "CG-S84bmxLEfg5HJ9bdc12hKnSS"
 const BASE_URL = "https://api.coingecko.com/api/v3";
 
 //function to fetch crypto prices from coingecko
