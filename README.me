@@ -1,3 +1,62 @@
+Crypto Portfolio Tracker Electron App
+
+A full featured cryptocurrency portfolio tracker built with React, Node.js, Express.js, Firebase and Elcetron. Users
+can monitor real-time prices, manage custom portfolios, set up priuce alerts, enable 2fa, check historical crypto data and
+recieve email notifications of price changes.
+
+Project Structure
+Crypto-Tracker-Final-main
+|- backend/index.js                 Node.js backend of the system with Express, Firebase Admin, nodemailer
+|- frontend/src/Components/pages    React frontend with all components such as Login, Register, Portfolio and others
+|- frontend/src/Services            cryptoService.js where API is called upon
+|- electron.js                      Electron main process
+|- package.json                     scripts are located for running application
+|- README.me                        This file
+
+Getting Started
+
+- Install Node.js v18.20.7 LTS recommended version for users located online winx64 installer
+- Install Visual studio code
+
+Installation
+
+1. Unzip Crypto Portfolio Tracker download from moodle onto desktop
+
+2. Open project folder in visual studio code
+
+3. Open terminal in vs code and in root of the folder eg \Crypto_Tracker_Final> run the below command 
+
+    npm install electron@35.1.4 electron-is-dev@2.0.0 cross-env@7.0.3 concurrently@9.1.2 builder@5.0.0
+
+4. Next in terminal write cd frontend and click enter which will then look like this for example \Crypto_Tracker_Final\frontend> and run the below
+
+    npm install @testing-library/dom@10.4.0 @testing-library/jest-dom@6.6.3 @testing-library/react@16.2.0 @testing-library/user-event@13.5.0 axios@1.8.4 electron-is-dev@3.0.1 electron@35.0.3 firebase@11.5.0 lucide-react@0.486.0 react-dom@19.0.0 react-icons@5.5.0 react-router-dom@6.16.0 react-scripts@3.4.4 react-select@5.10.1 react@19.0.0 recharts@2.15.1 web-vitals@2.1.4
+
+5. Next install backend dependencies by first typing "cd .." in terminal if still in frontend folder, next type "cd backend" which will take you to
+   \Crypto_Tracker_Final\backend>  next run the below 
+
+    npm install axios@1.8.4 bcryptjs@3.0.2 cors@2.8.5 express@4.21.2 firebase-admin@13.2.0 jsonwebtoken@9.0.2 mongoose@8.12.1 nodemailer@6.10.0 qrcode@1.5.4 speakeasy@2.0.0 dotenv
+
+6. Finally to run the application type "cd .." if still in backend folder this will take you to the root of the folder and type:
+
+    npm start 
+
+7. The above command will start the application to quit application either click on the close button on the app or do ctrl + c twice in vs code terminal
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 root of folder npm install electron@35.1.4 electron-is-dev@2.0.0 cross-env@7.0.3 concurrently@9.1.2 builder@5.0.0
 
@@ -8,3 +67,5 @@ backend = npm install axios@1.8.4 bcryptjs@3.0.2 cors@2.8.5 express@4.21.2 fireb
 Node.js v18.20.7
 
 npm install dotenv backend 
+
+npm install --save-dev concurrently in root
