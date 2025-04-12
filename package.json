@@ -3,7 +3,9 @@
     "version": "1.0.0",
     "main": "electron.js",
     "scripts": {
-        "start": "cd frontend && npm start",
+        "start": "concurrently \"npm run backend\" \"npm run frontend\" \"npm run electron-dev\"",
+        "backend": "node backend/index.js",
+        "frontend": "cd frontend && npm start",
         "build": "cd frontend && npm run build",
         "electron": "node_modules/.bin/electron .",
         "electron-dev": "cross-env ELECTRON_START_URL=http://localhost:3000 node_modules/.bin/electron ."

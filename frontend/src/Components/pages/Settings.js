@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { IoMdSettings } from "react-icons/io";
+import { IoMdSettings } from "react-icons/io"; //imports setting icon
 import { auth } from "../../firebase";
 import { updatePassword, reauthenticateWithCredential, EmailAuthProvider } from "firebase/auth"; //imports firebase update password functions and others
 import "./Settings.css"; //imports Settings.css stylings for this page
