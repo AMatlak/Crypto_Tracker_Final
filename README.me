@@ -43,6 +43,9 @@ Installation
 
 7. The above command will start the application to quit application either click on the close button on the app or do ctrl + c twice in vs code terminal
 
+Important: npm start will launch the application both through electron.js as an application and through the web browser, i left it like this
+as after doing some testing on different laptops, it proved to be the most consistently reliable setup, as running Electron alone without also 
+launching the web server sometimes results in a blank window due to the timing issues of the react app will try to get a fix for this.
 
 
 
@@ -50,22 +53,3 @@ Installation
 
 
 
-
-
-
-
-
-
-
-
-root of folder npm install electron@35.1.4 electron-is-dev@2.0.0 cross-env@7.0.3 concurrently@9.1.2 builder@5.0.0
-
-frontend = npm install @testing-library/dom@10.4.0 @testing-library/jest-dom@6.6.3 @testing-library/react@16.2.0 @testing-library/user-event@13.5.0 axios@1.8.4 electron-is-dev@3.0.1 electron@35.0.3 firebase@11.5.0 lucide-react@0.486.0 react-dom@19.0.0 react-icons@5.5.0 react-router-dom@6.16.0 react-scripts@3.4.4 react-select@5.10.1 react@19.0.0 recharts@2.15.1 web-vitals@2.1.4
-
-backend = npm install axios@1.8.4 bcryptjs@3.0.2 cors@2.8.5 express@4.21.2 firebase-admin@13.2.0 jsonwebtoken@9.0.2 mongoose@8.12.1 nodemailer@6.10.0 qrcode@1.5.4 speakeasy@2.0.0
-
-Node.js v18.20.7
-
-npm install dotenv backend 
-
-npm install --save-dev concurrently in root

@@ -41,13 +41,13 @@ app.post("/send-verification-email", async (req, res) => {
         subject: "Verify Your Email for Crypto Tracker",
         html: `
             <h2>Welcome to Crypto Tracker Test!</h2>
-            <p>Click the link below to verify your email. You can enable 2FA through dashboard settings:</p>
+            <p>Click the link below to verify your email. You can enable 2FA through dashboard settings.</p>
             <a href="${verificationLink}" target="_blank">${verificationLink}</a>
         `,
     };
 
     try {
-        //sends email using nodemailer
+        //sends email using nodemailer plus shows error message if failed
         await transporter.sendMail(mailOptions);
         res.status(200).json({ message: "Verification email sent successfully" });
     } catch (error) {
