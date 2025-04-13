@@ -20,7 +20,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "SET BROWSER=none && SET CHOKIDAR_USEPOLLING=true && react-scripts --openssl-legacy-provider start",
+    "start": "SET CHOKIDAR_USEPOLLING=true && react-scripts --openssl-legacy-provider start",
     "build": "react-scripts --openssl-legacy-provider build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
