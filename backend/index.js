@@ -40,7 +40,7 @@ app.post("/send-verification-email", async (req, res) => {
         to: email,
         subject: "Verify Your Email for Crypto Tracker",
         html: `
-            <h2>Welcome to Crypto Tracker Test!</h2>
+            <h2>Welcome to Crypto Portfolio Tracker</h2>
             <p>Click the link below to verify your email. You can enable 2FA through dashboard settings.</p>
             <a href="${verificationLink}" target="_blank">${verificationLink}</a>
         `,
